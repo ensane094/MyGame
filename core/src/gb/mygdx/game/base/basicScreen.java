@@ -7,10 +7,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
 
 public class basicScreen implements Screen, InputProcessor {
-protected SpriteBatch batch;
+    protected SpriteBatch batch;
 
     @Override
-    public void show(){
+    public void show() {
         Gdx.input.setInputProcessor(this);
         batch = new SpriteBatch();
     }
@@ -21,61 +21,64 @@ protected SpriteBatch batch;
     }
 
     @Override
-    public void resize(int width, int height){}
+    public void resize(int width, int height) {
+    }
 
     @Override
-    public void pause(){}
+    public void pause() {
+    }
 
     @Override
-    public void resume(){}
+    public void resume() {
+    }
 
     @Override
-    public void hide(){
+    public void hide() {
         dispose();
     }
 
     @Override
-    public void dispose(){
+    public void dispose() {
         batch.dispose();
     }
 
     @Override
-    public boolean keyDown(int keycode){
+    public boolean keyDown(int keycode) {
         return false;
     }
 
     @Override
-    public boolean keyUp(int keycode){
+    public boolean keyUp(int keycode) {
         return false;
     }
 
     @Override
-    public boolean keyTyped(char character){
+    public boolean keyTyped(char character) {
         return false;
     }
 
     @Override
-    public boolean touchDown(int screenX, int screenY, int pointer, int button){
+    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         return false;
     }
 
     @Override
-    public boolean touchUp(int screenX, int screenY, int pointer, int button){
+    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
         return false;
     }
 
     @Override
-    public boolean touchDragged(int screenX, int screenY, int pointer){
+    public boolean touchDragged(int screenX, int screenY, int pointer) {
         return false;
     }
 
     @Override
-    public boolean mouseMoved(int screenX, int screenY){
+    public boolean mouseMoved(int screenX, int screenY) {
         return false;
     }
 
     @Override
-    public boolean scrolled(float amountX, float amountY){
+    public boolean scrolled(float amountX, float amountY) {
         return false;
     }
 }
