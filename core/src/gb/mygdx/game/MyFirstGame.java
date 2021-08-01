@@ -1,11 +1,12 @@
 package gb.mygdx.game;
 
-import com.badlogic.gdx.ApplicationAdapter;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.Game;
 
-public class MyFirstGame extends ApplicationAdapter {
+public class MyFirstGame extends Game {
+	@Override
+	public void create () {
+		setScreen(new MenuScreen());
+	}
 	SpriteBatch batch;
 	Texture img;
 	Texture wallpapper;
@@ -25,7 +26,7 @@ public class MyFirstGame extends ApplicationAdapter {
 
 		batch.end();
 	}
-	
+
 	@Override
 	public void dispose () {
 		batch.dispose();
