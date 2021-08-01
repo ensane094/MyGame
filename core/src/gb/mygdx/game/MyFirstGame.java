@@ -14,13 +14,15 @@ public class MyFirstGame extends ApplicationAdapter {
 	public void create () {
 		batch = new SpriteBatch();
 		img = new Texture("badlogic.jpg");
+		wallpapper =new Texture("imperialFleet.jpg");
 	}
 
 	@Override
 	public void render () {
 		ScreenUtils.clear(1, 0, 0, 1);
 		batch.begin();
-		batch.draw(wallpapper,0,0,);
+		batch.draw(wallpapper,0,0,712,486);
+
 		batch.end();
 	}
 	
@@ -28,5 +30,6 @@ public class MyFirstGame extends ApplicationAdapter {
 	public void dispose () {
 		batch.dispose();
 		img.dispose();
+		wallpapper.dispose();
 	}
 }
