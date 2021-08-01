@@ -11,22 +11,30 @@ public class menuScreen extends basicScreen {
     private Texture wallpepper;
     private Vector2 v;
     private Vector2 position;
+    private Vector2 destination;
 
     @Override
     public void show() {
         super.show();
-
         img = new Texture("ufthag.png");
         wallpepper = new Texture("imperialFleet.jpg");
         v = new Vector2(1, 1);
         position = new Vector2();
+        destination = new Vector2();
     }
 
     @Override
     public void render(float delta) {
         super.render(delta);
+        batch.begin();
         batch.draw(wallpepper, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         batch.draw(img,position.x,position.y);
+        if ((position.x==destination.x)&&(v.x!=0)){
+        v.sub(1,0);
+        }
+        if ((position.y==destination.y)&& (v.y!=0)){
+        v.sub(0,1);
+        }
         batch.end();
         position.add(v);
     }
@@ -40,7 +48,7 @@ public class menuScreen extends basicScreen {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        position.set(screenX, Gdx.graphics.getHeight() - screenY);
+        destination.set(screenX, Gdx.graphics.getHeight() - screenY);
         return super.touchDown(screenX, screenY, pointer, button);
     }
 
