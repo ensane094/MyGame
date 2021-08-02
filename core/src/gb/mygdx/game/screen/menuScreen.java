@@ -12,6 +12,8 @@ public class menuScreen extends basicScreen {
     private Vector2 v;
     private Vector2 position;
     private Vector2 destination;
+    private float distance;
+    private float speed;
 
     @Override
     public void show() {
@@ -27,16 +29,20 @@ public class menuScreen extends basicScreen {
     public void render(float delta) {
         super.render(delta);
         batch.begin();
+        if (distance==0){
+            v.x=0;
+            v.y=0;
+        }else   {
+            speed=distance/=6000;
+            v.x+=speed;
+            v.y+=speed;
+            position.add(v.nor());
+        }
         batch.draw(wallpepper, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         batch.draw(img,position.x,position.y);
-        if ((position.x==destination.x)&&(v.x!=0)){
-        v.sub(1,0);
-        }
-        if ((position.y==destination.y)&& (v.y!=0)){
-        v.sub(0,1);
-        }
+        distance= destination.len()-position.len();
         batch.end();
-        position.add(v);
+
     }
 
     @Override
