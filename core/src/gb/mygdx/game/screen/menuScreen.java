@@ -12,15 +12,14 @@ public class menuScreen extends basicScreen {
     private Vector2 v;
     private Vector2 position;
     private Vector2 destination;
-    private float distance;
-    private float speed;
+    private final float V_LEN = 0.025f;
 
     @Override
     public void show() {
         super.show();
         img = new Texture("ufthag.png");
         wallpepper = new Texture("imperialFleet.jpg");
-        v = new Vector2(1, 1);
+        v = new Vector2();
         position = new Vector2();
         destination = new Vector2();
     }
@@ -29,19 +28,14 @@ public class menuScreen extends basicScreen {
     public void render(float delta) {
         super.render(delta);
         batch.begin();
-        if (distance==0){
-            v.x=0;
-            v.y=0;
-        }else   {
-            speed=distance/=6000;
-            v.x+=speed;
-            v.y+=speed;
-            position.add(v.nor());
-        }
         batch.draw(wallpepper, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        batch.draw(img,position.x,position.y);
-        distance= destination.len()-position.len();
+        batch.draw(img, position.x, position.y);
         batch.end();
+        if (destination.dst(position) > V_LEN) {
+            position.add(v);
+        } else {
+            position.set(destination);
+        }
 
     }
 
@@ -55,12 +49,12 @@ public class menuScreen extends basicScreen {
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         destination.set(screenX, Gdx.graphics.getHeight() - screenY);
-        return super.touchDown(screenX, screenY, pointer, button);
+        v.add(destination.cpy().sub(position)).scl(V_LEN);
+        return false;
     }
 
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
-        position.set(screenX, Gdx.graphics.getHeight() - screenY);
-        return super.touchDragged(screenX, screenY, pointer);
+        return false;
     }
 }
