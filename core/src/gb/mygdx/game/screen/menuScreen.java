@@ -1,14 +1,16 @@
 package gb.mygdx.game.screen;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 
 import gb.mygdx.game.base.basicScreen;
+import gb.mygdx.game.math.Rect;
+import gb.mygdx.game.sprite.Background;
 
 public class menuScreen extends basicScreen {
     private Texture img;
     private Texture wallpepper;
+    Background background ;
     private Vector2 v;
     private Vector2 position;
     private Vector2 destination;
@@ -17,26 +19,29 @@ public class menuScreen extends basicScreen {
     @Override
     public void show() {
         super.show();
-        img = new Texture("ufthag.png");
         wallpepper = new Texture("imperialFleet.jpg");
+        background = new Background(wallpepper);
         v = new Vector2();
         position = new Vector2();
         destination = new Vector2();
     }
 
     @Override
+    public void resize(Rect worldBounds) {
+        background.resize(worldBounds);
+    }
+
+    @Override
     public void render(float delta) {
         super.render(delta);
         batch.begin();
-        batch.draw(wallpepper, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        batch.draw(img, position.x, position.y);
+        background.draw(batch);
         batch.end();
-        if (destination.dst(position) > V_LEN) {
+       if (destination.dst(position) > V_LEN) {
             position.add(v);
         } else {
             position.set(destination);
         }
-
     }
 
     @Override
@@ -47,10 +52,8 @@ public class menuScreen extends basicScreen {
     }
 
     @Override
-    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        destination.set(screenX, Gdx.graphics.getHeight() - screenY);
-        v.add(destination.cpy().sub(position)).scl(V_LEN);
-        return false;
+    public boolean touchDown(Vector2 vectorTouch, int pointer, int button) {
+        return super.touchDown(vectorTouch, pointer, button);
     }
 
     @Override
