@@ -13,10 +13,6 @@ public class menuScreen extends basicScreen {
     private Texture wallpepper;
     Background background ;
     Logo log;
-    private Vector2 v;
-    private Vector2 position;
-    private Vector2 destination;
-    private final float V_LEN = 0.025f;
 
     @Override
     public void show() {
@@ -25,9 +21,6 @@ public class menuScreen extends basicScreen {
         wallpepper = new Texture("imperialFleet.jpg");
         background = new Background(wallpepper);
         log = new Logo(ork);
-        v = new Vector2();
-        position = new Vector2();
-        destination = new Vector2();
     }
 
     @Override
@@ -39,15 +32,8 @@ public class menuScreen extends basicScreen {
     @Override
     public void render(float delta) {
         super.render(delta);
-        batch.begin();
-        background.draw(batch);
-        log.draw(batch);
-        batch.end();
-        if (destination.dst(position) > V_LEN) {
-            position.add(v);
-        } else {
-            position.set(destination);
-        }
+     update(delta);
+     draw();
     }
 
     @Override
@@ -59,11 +45,21 @@ public class menuScreen extends basicScreen {
 
     @Override
     public boolean touchDown(Vector2 vectorTouch, int pointer, int button) {
-        return super.touchDown(vectorTouch, pointer, button);
+        log.touchDown(vectorTouch,pointer,button);
+        return false;
     }
 
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
         return false;
+    }
+    private void update (float delta){
+    log.update(delta);
+    }
+    private void draw(){
+        batch.begin();
+        background.draw(batch);
+        log.draw(batch);
+        batch.end();
     }
 }

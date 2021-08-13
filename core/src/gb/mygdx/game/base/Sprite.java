@@ -17,7 +17,9 @@ public class Sprite extends Rect {
         regions = new TextureRegion[1];
         regions[0] = region;
     }
+    public void update (float delta){
 
+    }
 
     public void draw(SpriteBatch batch) {
         batch.draw(

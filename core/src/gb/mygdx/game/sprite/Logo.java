@@ -9,17 +9,27 @@ import gb.mygdx.game.base.Sprite;
 import gb.mygdx.game.math.Rect;
 
 public class Logo extends Sprite {
-    private final float V_LEN=0.64f;
-    Vector2 v= new Vector2();
-    Vector2 vectorTouch=new Vector2();
+    private final float V_LEN=0.024f;
+    Vector2 v;
+    Vector2 vectorTouch;
     public Logo(Texture texture) {
         super(new TextureRegion(texture));
     }
-    public void resize(Rect worldBounds) {                  //устанавливаем размер картинки
-        worldBounds.setHeight(0.20f);
-        setHeightProportion(worldBounds.getHalfHeight());
-        pos.set(worldBounds.pos);
+    public void resize(Rect worldBounds) {
+        v= new Vector2();
+        vectorTouch=new Vector2();
+        setHeightProportion(0.0993f);
     }
+
+    @Override
+    public void update(float delta) {
+        if (vectorTouch.dst(pos) > V_LEN) {
+            pos.add(v);
+        } else {
+            pos.set(vectorTouch);
+        }
+    }
+
     public void draw(SpriteBatch batch) {
         batch.draw(
                 regions[frame],
@@ -28,14 +38,10 @@ public class Logo extends Sprite {
                 getWidth(), getHeight(),
                 scale, scale,
                 angle
-        );if (vectorTouch.dst(pos) > V_LEN) {
-                      pos.add(v);
-                     } else {
-                      pos.set(vectorTouch);
-                      }
+        );
     }
     public boolean touchDown(Vector2 vectorTouch, int pointer, int button) { //как и в прошлый раз, находим вектор скорости
-        this.vectorTouch=vectorTouch;
+        this.vectorTouch.set(vectorTouch);
         v.set(vectorTouch.cpy().sub(pos).scl(V_LEN));
         return false;
     }
