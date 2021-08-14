@@ -45,6 +45,4 @@ public class Logo extends Sprite {
         v.set(vectorTouch.cpy().sub(pos).scl(V_LEN));
         return false;
     }
-}// как я понимаю, логику мы должны зашить в метод draw Но, если честно, я не сильно понимаю как...
-//  Позиция это pos и к нему надо добавлять во время draw эту логику но он чёт не летает..
-
+}
