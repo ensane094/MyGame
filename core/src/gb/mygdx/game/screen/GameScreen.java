@@ -1,5 +1,6 @@
 package gb.mygdx.game.screen;
 
+
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
@@ -16,6 +17,8 @@ public class GameScreen extends basicScreen {
     Background background ;
     private TextureAtlas atlas;
     private Star[] stars;
+    private Logo logo;
+    private Texture ork;
 
     @Override
     public void show() {
@@ -27,6 +30,8 @@ public class GameScreen extends basicScreen {
         for (int i = 0; i < stars.length; i++) {
             stars[i] = new Star(atlas);
         }
+        ork = new Texture("textures/ORK.png");
+        logo = new Logo(ork);
     }
 
     @Override
@@ -50,6 +55,7 @@ public class GameScreen extends basicScreen {
         super.dispose();
         wallpepper.dispose();
         atlas.dispose();
+        ork.dispose();
     }
 
     @Override
@@ -72,6 +78,7 @@ public class GameScreen extends basicScreen {
         for(Star star: stars){
             star.draw(batch);
         }
+        logo.draw(batch);
         batch.end();
     }
 }
