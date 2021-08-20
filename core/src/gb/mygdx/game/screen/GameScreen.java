@@ -16,6 +16,7 @@ public class GameScreen extends basicScreen {
     private Texture wallpepper;
     Background background ;
     private TextureAtlas atlas;
+    private TextureAtlas atlas1;
     private Star[] stars;
     private Logo logo;
     private Texture ork;
@@ -25,6 +26,7 @@ public class GameScreen extends basicScreen {
         super.show();
         wallpepper = new Texture("textures/imperialFleet.jpg");
         background = new Background(wallpepper);
+        atlas1 = new TextureAtlas("textures/mainAtlas.tpack");
         atlas = new TextureAtlas("textures/menu_atlas.atlas");
         stars = new Star[STAR_COUNT];
         for (int i = 0; i < stars.length; i++) {
@@ -45,6 +47,7 @@ public class GameScreen extends basicScreen {
     public void resize(Rect worldBounds) {
         super.resize(worldBounds);
         background.resize(worldBounds);
+        logo.resize(worldBounds);
         for (Star star : stars){
             star.resize(worldBounds);
         }
@@ -60,6 +63,7 @@ public class GameScreen extends basicScreen {
 
     @Override
     public boolean touchDown(Vector2 vectorTouch, int pointer, int button) {
+        logo.touchDown(vectorTouch,pointer,button);
         return false;
     }
 
@@ -71,6 +75,7 @@ public class GameScreen extends basicScreen {
         for(Star star : stars){
             star.update(delta);
         }
+        logo.update(delta);
     }
     public void draw (){
         batch.begin();

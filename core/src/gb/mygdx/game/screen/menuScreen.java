@@ -10,6 +10,7 @@ import gb.mygdx.game.base.basicScreen;
 import gb.mygdx.game.math.Rect;
 import gb.mygdx.game.sprite.Background;
 import gb.mygdx.game.sprite.ExitButton;
+import gb.mygdx.game.sprite.Logo;
 import gb.mygdx.game.sprite.PlayButton;
 import gb.mygdx.game.sprite.Star;
 
@@ -20,6 +21,7 @@ public class menuScreen extends basicScreen {
     private PlayButton playButton;
     private Texture wallpepper;
     Background background ;
+    private TextureAtlas atlas1;
     private TextureAtlas atlas;
     private Star[] stars;
     private final Game game;
@@ -33,6 +35,7 @@ public class menuScreen extends basicScreen {
         super.show();
         wallpepper = new Texture("textures/imperialFleet.jpg");
         background = new Background(wallpepper);
+        atlas1 = new TextureAtlas("textures/mainAtlas.tpack");
         atlas = new TextureAtlas("textures/menu_atlas.atlas");
         stars = new Star[STAR_COUNT];
         exitButton = new ExitButton(atlas);
