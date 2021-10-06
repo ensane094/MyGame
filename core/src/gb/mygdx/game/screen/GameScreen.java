@@ -3,27 +3,30 @@ package gb.mygdx.game.screen;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
 import gb.mygdx.game.base.basicScreen;
 import gb.mygdx.game.math.Rect;
 import gb.mygdx.game.sprite.Background;
-import gb.mygdx.game.sprite.Logo;
+import gb.mygdx.game.sprite.MainShip;
 import gb.mygdx.game.sprite.Star;
 
 public class GameScreen extends basicScreen {
     private static final int STAR_COUNT = 84;
     private Texture wallpepper;
+    private Texture mainAtlas;
     Background background ;
     private TextureAtlas atlas;
     private TextureAtlas atlas1;
     private Star[] stars;
-    private Logo logo;
-    private Texture ork;
+    private MainShip mainShip;
+    private TextureRegion[] mainShipTextures;
 
     @Override
     public void show() {
         super.show();
+        mainAtlas = new Texture("textures/mainAtlas.png");
         wallpepper = new Texture("textures/imperialFleet.jpg");
         background = new Background(wallpepper);
         atlas1 = new TextureAtlas("textures/mainAtlas.tpack");
@@ -32,8 +35,10 @@ public class GameScreen extends basicScreen {
         for (int i = 0; i < stars.length; i++) {
             stars[i] = new Star(atlas);
         }
-        ork = new Texture("textures/ORK.png");
-        logo = new Logo(ork);
+        mainShipTextures= new TextureRegion[2];
+        mainShipTextures[0]=new TextureRegion(mainAtlas,916,95,195,287);
+        mainShipTextures[1]=new TextureRegion(mainAtlas,1120,95,195,287);
+        mainShip = new MainShip(mainShipTextures);
     }
 
     @Override
@@ -47,7 +52,7 @@ public class GameScreen extends basicScreen {
     public void resize(Rect worldBounds) {
         super.resize(worldBounds);
         background.resize(worldBounds);
-        logo.resize(worldBounds);
+        mainShip.resize(worldBounds);
         for (Star star : stars){
             star.resize(worldBounds);
         }
@@ -58,24 +63,24 @@ public class GameScreen extends basicScreen {
         super.dispose();
         wallpepper.dispose();
         atlas.dispose();
-        ork.dispose();
     }
 
     @Override
     public boolean touchDown(Vector2 vectorTouch, int pointer, int button) {
-        logo.touchDown(vectorTouch,pointer,button);
+        mainShip.touchDown(vectorTouch,pointer,button);
         return false;
     }
 
     @Override
     public boolean touchUp(Vector2 vectorTouch, int pointer, int button) {
+        mainShip.touchUp(vectorTouch,pointer,button);
         return false;
     }
     public void update(float delta){
         for(Star star : stars){
             star.update(delta);
         }
-        logo.update(delta);
+        mainShip.update(delta);
     }
     public void draw (){
         batch.begin();
@@ -83,7 +88,17 @@ public class GameScreen extends basicScreen {
         for(Star star: stars){
             star.draw(batch);
         }
-        logo.draw(batch);
+        mainShip.draw(batch);
         batch.end();
+    }
+    @Override
+    public boolean keyDown(int keycode) {
+        mainShip.keyDown(keycode);
+        return false;
+    }
+    @Override
+    public boolean keyUp (int keycode) {
+        mainShip.keyUp(keycode);
+        return false;
     }
 }

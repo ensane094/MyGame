@@ -10,7 +10,6 @@ import gb.mygdx.game.base.basicScreen;
 import gb.mygdx.game.math.Rect;
 import gb.mygdx.game.sprite.Background;
 import gb.mygdx.game.sprite.ExitButton;
-import gb.mygdx.game.sprite.Logo;
 import gb.mygdx.game.sprite.PlayButton;
 import gb.mygdx.game.sprite.Star;
 
