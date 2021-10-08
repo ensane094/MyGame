@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Vector2;
 
 import gb.mygdx.game.base.basicScreen;
 import gb.mygdx.game.math.Rect;
+import gb.mygdx.game.pull.BulletPool;
 import gb.mygdx.game.sprite.Background;
 import gb.mygdx.game.sprite.MainShip;
 import gb.mygdx.game.sprite.Star;
@@ -21,7 +22,7 @@ public class GameScreen extends basicScreen {
     private TextureAtlas atlas1;
     private Star[] stars;
     private MainShip mainShip;
-    private TextureRegion[] mainShipTextures;
+    private BulletPool bulletPool;
 
     @Override
     public void show() {
@@ -32,19 +33,18 @@ public class GameScreen extends basicScreen {
         atlas1 = new TextureAtlas("textures/mainAtlas.tpack");
         atlas = new TextureAtlas("textures/menu_atlas.atlas");
         stars = new Star[STAR_COUNT];
+        bulletPool = new BulletPool();
         for (int i = 0; i < stars.length; i++) {
             stars[i] = new Star(atlas);
         }
-        mainShipTextures= new TextureRegion[2];
-        mainShipTextures[0]=new TextureRegion(mainAtlas,916,95,195,287);
-        mainShipTextures[1]=new TextureRegion(mainAtlas,1120,95,195,287);
-        mainShip = new MainShip(mainShipTextures);
+        mainShip = new MainShip(atlas1,bulletPool);
     }
 
     @Override
     public void render(float delta) {
         super.render(delta);
         update(delta);
+        freeAllDestroyed();
         draw();
     }
 
@@ -62,6 +62,7 @@ public class GameScreen extends basicScreen {
     public void dispose() {
         super.dispose();
         wallpepper.dispose();
+        bulletPool.dispose();
         atlas.dispose();
     }
 
@@ -81,6 +82,7 @@ public class GameScreen extends basicScreen {
             star.update(delta);
         }
         mainShip.update(delta);
+        bulletPool.updateActiveSprites(delta);
     }
     public void draw (){
         batch.begin();
@@ -89,7 +91,12 @@ public class GameScreen extends basicScreen {
             star.draw(batch);
         }
         mainShip.draw(batch);
+        bulletPool.drawActiveSprites(batch);
         batch.end();
+    }
+
+    public void freeAllDestroyed (){
+        bulletPool.freeAllDestroyedActiveSprites();
     }
     @Override
     public boolean keyDown(int keycode) {

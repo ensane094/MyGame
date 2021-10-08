@@ -54,7 +54,6 @@ public class basicScreen implements Screen, InputProcessor {
         MatrixUtils.calcTransitionMatrix(screenToWorld,screenBounds,worldBounds);
     }
     public void resize(Rect worldBounds){
-        System.out.println("WorldBounds width= "+worldBounds.getWidth()+"WorldBounds height= "+worldBounds.getHeight());
     }
 
     @Override
@@ -97,8 +96,7 @@ public class basicScreen implements Screen, InputProcessor {
         return false;
     }
     public boolean touchDown(Vector2 vectorTouch, int pointer, int button) {
-        System.out.println("TouchDown vectorTouchX= "+vectorTouch.x+" TouchDown vectorTouchY "+vectorTouch.y);
-        return false;
+      return false;
     }
 
     @Override
@@ -108,7 +106,6 @@ public class basicScreen implements Screen, InputProcessor {
         return false;
     }
     public boolean touchUp(Vector2 vectorTouch, int pointer, int button) {
-        System.out.println("TouchUp vectorTouchX= "+vectorTouch.x+" TouchUp vectorTouchY "+vectorTouch.y);
         return false;
     }
 
@@ -119,8 +116,7 @@ public class basicScreen implements Screen, InputProcessor {
         return false;
     }
     public boolean touchDragged(Vector2 vectorTouch, int pointer) {
-        System.out.println("TouchDragged vectorTouchX= "+vectorTouch.x+" TouchDragged vectorTouchY "+vectorTouch.y);
-        return false;
+       return false;
     }
 
 
