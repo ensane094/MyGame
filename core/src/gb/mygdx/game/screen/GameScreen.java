@@ -27,7 +27,6 @@ public class GameScreen extends basicScreen {
     private BulletPool bulletPool;
     private Sound bulletSound;
     private Sound music;
-    private long id = music.play(1.0f);
 
     @Override
     public void show() {
@@ -42,8 +41,8 @@ public class GameScreen extends basicScreen {
         for (int i = 0; i < stars.length; i++) {
             stars[i] = new Star(atlas);
         }
-        bulletSound = Gdx.audio.newSound(Gdx.files.internal("sounds/bullet.wav"));
         music = Gdx.audio.newSound(Gdx.files.internal("sounds/music.mp3"));
+        bulletSound = Gdx.audio.newSound(Gdx.files.internal("sounds/bullet.wav"));
         mainShip = new MainShip(atlas1,bulletPool,bulletSound);
     }
 
@@ -52,7 +51,6 @@ public class GameScreen extends basicScreen {
         super.render(delta);
         update(delta);
         freeAllDestroyed();
-        music.setLooping(id,true);
         draw();
     }
 
@@ -64,6 +62,7 @@ public class GameScreen extends basicScreen {
         for (Star star : stars){
             star.resize(worldBounds);
         }
+        music.play();
     }
 
     @Override
@@ -73,7 +72,6 @@ public class GameScreen extends basicScreen {
         bulletPool.dispose();
         atlas.dispose();
         bulletSound.dispose();
-        music.dispose();
     }
 
     @Override
