@@ -4,53 +4,44 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
-import gb.mygdx.game.base.Sprite;
+import gb.mygdx.game.base.Ship;
 import gb.mygdx.game.math.Rect;
 import gb.mygdx.game.pull.BulletPool;
 
 
-public class MainShip extends Sprite {
+public class MainShip extends Ship {
+    private static final float RELOAD_INTERVAL = 0.35f;
+    private static final float HEIGHT = 0.15f;
     private static final int INVALID_POINTER = -1;
-    private final float V_LEN = 0.024f;
     private final float BOTTOM_MARGIN = 0.05f;
-    Vector2 v;
-    Vector2 vectorTouch;
+
     private boolean pressedLeft;
     private boolean pressedRight;
-    private Rect worldBounds;
+
     private int leftPointer = INVALID_POINTER;
     private int rightPointer = INVALID_POINTER;
-    private BulletPool bulletPool;
-    private TextureRegion bulletRegion;
-    private Vector2 bulletPos;
-    private Vector2 bulletV;
-    private float bulletHeight;
-    private int bulletDmg;
-    private int delay=0;
-    private Sound bulletSound;
 
-    public MainShip(TextureAtlas atlas,BulletPool bulletPool,Sound bulletSound) {
+    public MainShip(TextureAtlas atlas, BulletPool bulletPool, Sound bulletSound) {
         super(atlas.findRegion("main_ship"), 1, 2, 2);
-        this.bulletPool=bulletPool;
+        this.bulletPool = bulletPool;
         bulletRegion = atlas.findRegion("bulletMainShip");
-        bulletV = new Vector2(0,0.5f);
+        bulletV.set(0, 0.5f);
         bulletHeight = 0.01f;
         bulletDmg = 10000;
-        bulletPos = new Vector2();
+        reloadInterval = RELOAD_INTERVAL;
         this.bulletSound = bulletSound;
+        v0.set(0.35f,0);
+        hp = 100;
     }
 
     public void resize(Rect worldBounds) {
-        this.worldBounds = worldBounds;
-        v = new Vector2();
-        vectorTouch = new Vector2();
-        setHeightProportion(0.15f);
-        setBottom(worldBounds.getBottom() + BOTTOM_MARGIN);
-        this.worldBounds = worldBounds;
-        }
+        super.resize(worldBounds);
+        this.worldBounds=worldBounds;
+        setHeightProportion(HEIGHT);
+        setBottom(worldBounds.getBottom()+BOTTOM_MARGIN);
+    }
 
     @Override
     public void update(float delta) {
@@ -61,7 +52,7 @@ public class MainShip extends Sprite {
         } else if (getLeft() < worldBounds.getLeft()) {
             stopMoving(v);
         }
-        autoShoot();
+        bulletPos.set(pos.x, pos.y + getHalfHeight());
     }
 
     public void draw(SpriteBatch batch) {
@@ -151,29 +142,7 @@ public class MainShip extends Sprite {
                     stopMoving(v);
                 }
                 break;
-            case Input.Keys.UP:
-            case Input.Keys.W:
-                shoot();
-                break;
         }
         return false;
-    }
-
-    private void shoot (){
-        Bullet bullet = (Bullet) bulletPool.obtain();
-        bulletPos.set(pos.x,pos.y+getHalfHeight());
-        bullet.set(this,bulletRegion,bulletPos,bulletV,bulletHeight,worldBounds,bulletDmg);
-        bulletSound.play(0.019f);
-    }
-
-    private void autoShoot(){
-      if(delay==0){
-          shoot();
-          delay++;
-      }else if(delay==23) {
-          delay=0;
-      }else {
-          delay++;
-      }
     }
 }
