@@ -6,18 +6,25 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Vector2;
 
+import java.util.List;
+
+import gb.mygdx.game.base.Sprite;
 import gb.mygdx.game.base.basicScreen;
 import gb.mygdx.game.math.Rect;
 import gb.mygdx.game.pull.BulletPool;
 import gb.mygdx.game.pull.EnemyPool;
 import gb.mygdx.game.sprite.Background;
+import gb.mygdx.game.sprite.Bullet;
+import gb.mygdx.game.sprite.EnemyShip;
 import gb.mygdx.game.sprite.MainShip;
 import gb.mygdx.game.sprite.Star;
 import gb.mygdx.game.utils.EnemyEmitter;
 
 public class GameScreen extends basicScreen {
+    private boolean connectionCheck = false;
     private static final int STAR_COUNT = 84;
     private Texture wallpepper;
     Background background ;
@@ -59,6 +66,7 @@ public class GameScreen extends basicScreen {
         super.render(delta);
         update(delta);
         freeAllDestroyed();
+        checkCollisions();
         draw();
     }
 
@@ -130,4 +138,39 @@ public class GameScreen extends basicScreen {
         mainShip.keyUp(keycode);
         return false;
     }
+
+    private void checkCollisions(){
+        List<EnemyShip> enemyShipList = enemyPool.getActiveSprites();
+        for(EnemyShip enemyShip : enemyShipList){
+            if(enemyShip.isDestroyed()){
+                continue;
+            }
+            float minDist = enemyShip.getHalfWidth()+ mainShip.getHalfWidth();
+            if(mainShip.pos.dst(enemyShip.pos)<minDist){
+                mainShip.damage(enemyShip.getBulletDmg()*2);
+                enemyShip.destroy();
+            }
+        }
+
+        List<Bullet> bulletList = bulletPool.getActiveSprites();
+        for(Bullet bullet : bulletList){
+            if(bullet.isDestroyed()){
+                continue;
+            }
+            for(EnemyShip enemyShip : enemyShipList){
+                if(enemyShip.isDestroyed()|| bullet.getOwner()!=mainShip){
+                    continue;
+                }
+                if (enemyShip.isBulletCollision(bullet)){
+                    enemyShip.damage(bullet.getDamage());
+                    bullet.destroy();
+                }
+            }
+            if(bullet.getOwner()!=mainShip && mainShip.isBulletCollision(bullet)){
+                mainShip.damage(bullet.getDamage());
+                bullet.destroy();
+            }
+        }
+    }
+
 }

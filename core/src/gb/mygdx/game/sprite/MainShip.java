@@ -29,18 +29,18 @@ public class MainShip extends Ship {
         bulletRegion = atlas.findRegion("bulletMainShip");
         bulletV.set(0, 0.5f);
         bulletHeight = 0.01f;
-        bulletDmg = 10000;
+        bulletDmg = 1;
         reloadInterval = RELOAD_INTERVAL;
         this.bulletSound = bulletSound;
-        v0.set(0.35f,0);
+        v0.set(0.35f, 0);
         hp = 100;
     }
 
     public void resize(Rect worldBounds) {
         super.resize(worldBounds);
-        this.worldBounds=worldBounds;
+        this.worldBounds = worldBounds;
         setHeightProportion(HEIGHT);
-        setBottom(worldBounds.getBottom()+BOTTOM_MARGIN);
+        setBottom(worldBounds.getBottom() + BOTTOM_MARGIN);
     }
 
     @Override
@@ -144,5 +144,18 @@ public class MainShip extends Ship {
                 break;
         }
         return false;
+    }
+
+    @Override
+    public boolean isBulletCollision(Bullet bullet) {
+        return !(
+                bullet.getRight() < getLeft()
+                        ||
+                        bullet.getLeft() > getRight()
+                        ||
+                        bullet.getBottom() > pos.y
+                        ||
+                        bullet.getTop() < getBottom()
+        );
     }
 }

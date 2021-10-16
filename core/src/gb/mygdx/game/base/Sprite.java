@@ -18,7 +18,7 @@ public class Sprite extends Rect {
     private final Vector2 vPositiveSpeed = new Vector2(0.32f, 0f);
     private final Vector2 vNegativeSpeed = new Vector2(-0.32f, 0f);
 
-    private boolean destroyed;
+    protected boolean destroyed;
 
     public Sprite() {
 

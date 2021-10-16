@@ -8,7 +8,9 @@ import gb.mygdx.game.math.Rect;
 import gb.mygdx.game.pull.BulletPool;
 import gb.mygdx.game.sprite.Bullet;
 
-public class Ship extends Sprite {
+public abstract class Ship extends Sprite {
+    private static final float DAMAGE_ANIMATE_INTERVAL = 0.1f;
+
     protected final Vector2 v0;
     protected final Vector2 v;
 
@@ -24,6 +26,8 @@ public class Ship extends Sprite {
     protected float reloadTimer;
     protected float reloadInterval;
     protected int hp;
+
+    private float damageAnimateTimer = DAMAGE_ANIMATE_INTERVAL;
 
     public Ship() {
         v0 = new Vector2();
@@ -49,11 +53,31 @@ public class Ship extends Sprite {
             reloadTimer = 0f;
             shoot();
         }
+        damageAnimateTimer += delta;
+        if (damageAnimateTimer >= DAMAGE_ANIMATE_INTERVAL){
+            frame = 0;
+        }
     }
 
-    private void shoot (){
+    private void shoot() {
         Bullet bullet = (Bullet) bulletPool.obtain();
-        bullet.set(this,bulletRegion,bulletPos,bulletV,bulletHeight,worldBounds,bulletDmg);
+        bullet.set(this, bulletRegion, bulletPos, bulletV, bulletHeight, worldBounds, bulletDmg);
         bulletSound.play(0.019f);
     }
+
+    public void damage(int bulletDmg) {
+        hp -= bulletDmg;
+        if (hp <= 0) {
+            hp = 0;
+            destroy();
+        }
+        frame = 1;
+        damageAnimateTimer = 0f;
+    }
+
+    public int getBulletDmg() {
+        return bulletDmg;
+    }
+
+    public abstract boolean isBulletCollision(Bullet bullet);
 }
