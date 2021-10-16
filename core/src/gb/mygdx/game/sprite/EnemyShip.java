@@ -7,13 +7,15 @@ import com.badlogic.gdx.math.Vector2;
 import gb.mygdx.game.base.Ship;
 import gb.mygdx.game.math.Rect;
 import gb.mygdx.game.pull.BulletPool;
+import gb.mygdx.game.pull.ExplosionPool;
 
 public class EnemyShip extends Ship {
 
-    public EnemyShip(Rect worldBounds, BulletPool bulletPool) {
+    public EnemyShip(Rect worldBounds, BulletPool bulletPool, ExplosionPool explosionPool) {
         super();
         this.worldBounds = worldBounds;
         this.bulletPool = bulletPool;
+        this.explosionPool = explosionPool;
     }
 
     @Override

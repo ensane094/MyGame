@@ -6,7 +6,9 @@ import com.badlogic.gdx.math.Vector2;
 
 import gb.mygdx.game.math.Rect;
 import gb.mygdx.game.pull.BulletPool;
+import gb.mygdx.game.pull.ExplosionPool;
 import gb.mygdx.game.sprite.Bullet;
+import gb.mygdx.game.sprite.Explosion;
 
 public abstract class Ship extends Sprite {
     private static final float DAMAGE_ANIMATE_INTERVAL = 0.1f;
@@ -16,6 +18,7 @@ public abstract class Ship extends Sprite {
 
     protected Rect worldBounds;
     protected BulletPool bulletPool;
+    protected ExplosionPool explosionPool;
     protected TextureRegion bulletRegion;
     protected Vector2 bulletPos;
     protected Vector2 bulletV;
@@ -80,4 +83,15 @@ public abstract class Ship extends Sprite {
     }
 
     public abstract boolean isBulletCollision(Bullet bullet);
+
+    private  void boom ()  {
+        Explosion explosion = explosionPool.obtain();
+        explosion.set(pos, getHeight());
+    }
+
+    @Override
+    public void destroy() {
+        super.destroy();
+        boom();
+    }
 }

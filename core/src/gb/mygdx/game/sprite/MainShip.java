@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Vector2;
 import gb.mygdx.game.base.Ship;
 import gb.mygdx.game.math.Rect;
 import gb.mygdx.game.pull.BulletPool;
+import gb.mygdx.game.pull.ExplosionPool;
 
 
 public class MainShip extends Ship {
@@ -23,9 +24,10 @@ public class MainShip extends Ship {
     private int leftPointer = INVALID_POINTER;
     private int rightPointer = INVALID_POINTER;
 
-    public MainShip(TextureAtlas atlas, BulletPool bulletPool, Sound bulletSound) {
+    public MainShip(TextureAtlas atlas, BulletPool bulletPool, ExplosionPool explosionPool, Sound bulletSound) {
         super(atlas.findRegion("main_ship"), 1, 2, 2);
         this.bulletPool = bulletPool;
+        this.explosionPool = explosionPool;
         bulletRegion = atlas.findRegion("bulletMainShip");
         bulletV.set(0, 0.5f);
         bulletHeight = 0.01f;
@@ -33,7 +35,7 @@ public class MainShip extends Ship {
         reloadInterval = RELOAD_INTERVAL;
         this.bulletSound = bulletSound;
         v0.set(0.35f, 0);
-        hp = 100;
+        hp = 1;
     }
 
     public void resize(Rect worldBounds) {
