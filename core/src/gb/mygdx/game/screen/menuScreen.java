@@ -2,12 +2,12 @@ package gb.mygdx.game.screen;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 
-import gb.mygdx.game.MyFirstGame;
 import gb.mygdx.game.base.basicScreen;
 import gb.mygdx.game.math.Rect;
 import gb.mygdx.game.sprite.Background;
@@ -26,7 +26,7 @@ public class menuScreen extends basicScreen {
     private TextureAtlas atlas;
     private Star[] stars;
     private final Game game;
-    private Sound music;
+    private Music music;
 
     public menuScreen(Game game) {
         this.game = game;
@@ -45,7 +45,10 @@ public class menuScreen extends basicScreen {
         for (int i = 0; i < stars.length; i++) {
             stars[i]= new Star(atlas);
         }
-        music = Gdx.audio.newSound(Gdx.files.internal("sounds/menuScreen.mp3"));
+        music = Gdx.audio.newMusic(Gdx.files.internal("sounds/menuScreen.mp3"));
+        music.setLooping(true);
+        music.setVolume(0.3f);
+        music.play();
     }
 
     @Override
@@ -56,7 +59,6 @@ public class menuScreen extends basicScreen {
         }
         exitButton.resize(worldBounds);
         playButton.resize(worldBounds);
-        music.play(0.20f);
     }
 
     @Override

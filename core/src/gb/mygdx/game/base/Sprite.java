@@ -15,10 +15,10 @@ public class Sprite extends Rect {
     protected float scale = 1f;
     protected TextureRegion[] regions;
     protected int frame;
-    private final Vector2 vPositiveSpeed = new Vector2(0.35f, 0f);
-    private final Vector2 vNegativeSpeed = new Vector2(-0.35f, 0f);
+    private final Vector2 vPositiveSpeed = new Vector2(0.32f, 0f);
+    private final Vector2 vNegativeSpeed = new Vector2(-0.32f, 0f);
 
-    private boolean destroyed;
+    protected boolean destroyed;
 
     public Sprite() {
 
