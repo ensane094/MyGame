@@ -20,6 +20,7 @@ public class menuScreen extends basicScreen {
     private PlayButton playButton;
     private Texture wallpepper;
     Background background ;
+    private TextureAtlas atlas1;
     private TextureAtlas atlas;
     private Star[] stars;
     private final Game game;
@@ -33,6 +34,7 @@ public class menuScreen extends basicScreen {
         super.show();
         wallpepper = new Texture("textures/imperialFleet.jpg");
         background = new Background(wallpepper);
+        atlas1 = new TextureAtlas("textures/mainAtlas.tpack");
         atlas = new TextureAtlas("textures/menu_atlas.atlas");
         stars = new Star[STAR_COUNT];
         exitButton = new ExitButton(atlas);
